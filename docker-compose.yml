@@ -1,0 +1,24 @@
+services:
+  api_github:
+    container_name: api_github
+    image: api-github
+    build:
+      context: .
+      target: ${NODE_ENV:-development}
+      dockerfile: ./Dockerfile
+    ports:
+      - ${APP_PORT:-3000}:${APP_PORT:-3000}
+    networks:
+      - api_github-dev
+    volumes:
+      - .:/app
+      - api_github:/app/node_modules
+    restart: unless-stopped
+
+volumes:
+  api_github:
+
+networks:
+  api_github-dev:
+    name: api_github-dev
+    driver: bridge
